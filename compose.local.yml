@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_USER: wagashi_user
+      POSTGRES_PASSWORD: wagashi_password
+      POSTGRES_DB: wagashi_simulator
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    env_file:
+      - .env.local
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://wagashi_user:wagashi_password@postgres:5432/wagashi_simulator
+    command: pnpm dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:

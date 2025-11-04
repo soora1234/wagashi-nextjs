@@ -1,13 +1,16 @@
 FROM node:24
 
 WORKDIR /app
-COPY ./package.json ./
-COPY ./prisma ./prisma
 
-RUN npm install -g pnpm && pnpm install
-
+# Copy everything first (we ignore local node_modules via .dockerignore)
 COPY . .
-RUN pnpm build && CI=true pnpm prune --prod
+
+# Install pnpm and project dependencies
+RUN npm install -g pnpm && \
+	pnpm install --frozen-lockfile
+
+# Build the application
+RUN pnpm build
 
 # ENTRYPOINT ["/app/setup.sh"]
 
