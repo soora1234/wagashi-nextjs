@@ -10,23 +10,77 @@ async function main() {
   const boxTypes = []
   const boxTypeData = [
     {
-      size: '10x10',
-      name: '小箱',
+      size: '',
+      name: '',
+      price: ,
+      description: ' '
+    },
+    {
+      size: '220x220',
+      name: 'MX1',
+      price: 200,
+      description: ''
+    },
+    {
+      size: '220x255',
+      name: 'MX2',
+      price: 200,
+      description: ''
+    },
+    {
+      size: '220x285',
+      name: 'MX3',
+      price: 250,
+      description: ''
+    },
+    {
+      size: '220x325',
+      name: 'MX4',
+      price: 250,
+      description: ''
+    },
+    {
+      size: '220x350',
+      name: 'MX5',
       price: 300,
-      description: '少量の和菓子に最適な小さな箱です'
+      description: ''
     },
     {
-      size: '15x15',
-      name: '中箱',
-      price: 500,
-      description: '中程度の量の和菓子に適した箱です'
+      size: '220x375',
+      name: 'MX6',
+      price: 300,
+      description: ''
     },
     {
-      size: '20x20',
-      name: '大箱',
-      price: 800,
-      description: 'たくさんの和菓子を詰め合わせできる大きな箱です'
-    }
+      size: '220x375',
+      name: 'MX6',
+      price: 300,
+      description: ''
+    },
+    {
+      size: '220x390',
+      name: 'MX7',
+      price: 300,
+      description: ''
+    },
+    {
+      size: '220x420',
+      name: 'MX8',
+      price: 350,
+      description: ''
+    },
+    {
+      size: '220x420',
+      name: 'MX8',
+      price: 350,
+      description: ''
+    },
+    {
+      size: '220x450',
+      name: 'MX9',
+      price: 350,
+      description: ''
+    },
   ]
 
   for (const boxType of boxTypeData) {
@@ -55,7 +109,7 @@ async function main() {
 
   // 管理者ユーザーの作成
   const hashedPassword = await bcrypt.hash('I9mJCaDrscR06kV', 12)
-  
+
   try {
     const adminUser = await prisma.adminUser.upsert({
       where: { email: 'admin@example.com' },
@@ -74,11 +128,11 @@ async function main() {
 
   // カテゴリーの作成
   const categories: any[] = []
-  
+
   // 和菓子のカテゴリーを追加
   const categoryNames = [
     '焼き菓子',
-    '餅菓子', 
+    '餅菓子',
     '水菓子',
     '干菓子',
     '蒸し菓子',
@@ -114,7 +168,7 @@ async function main() {
 
   // 商品の作成
   const products = []
-  
+
   // カテゴリーIDを取得する関数
   const getCategoryId = (categoryName: string) => {
     const category = categories.find(c => c.name === categoryName)
@@ -282,7 +336,7 @@ async function main() {
       const existingProduct = await prisma.product.findFirst({
         where: { name: product.name }
       })
-      
+
       if (existingProduct) {
         console.log(`ℹ️ 商品「${product.name}」は既に存在します`)
         products.push(existingProduct)
@@ -373,7 +427,7 @@ async function main() {
     for (const product of allProducts) {
       try {
         await prisma.stock.upsert({
-          where: { 
+          where: {
             productId_storeId: {
               productId: product.id,
               storeId: store.id
