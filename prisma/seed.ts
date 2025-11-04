@@ -9,12 +9,12 @@ async function main() {
   // 箱タイプの作成
   const boxTypes = []
   const boxTypeData = [
-    {
+    /*{
       size: '',
       name: '',
       price: ,
       description: ' '
-    },
+    },*/
     {
       size: '220x220',
       name: 'MX1',
